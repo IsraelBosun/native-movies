@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "native-movie",
-    "slug": "native-movie",
+    "name": "Cinex",
+    "slug": "cinex",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
