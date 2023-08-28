@@ -8,6 +8,8 @@ import { HeartIcon } from 'react-native-heroicons/solid';
 import { styles, theme } from '../theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../component/Cast';
+import MovieList from '../component/MovieList';
+import Loading from '../component/Loading';
 
 
 var { width, height } = Dimensions.get("window")
@@ -19,14 +21,16 @@ export default function MovieScreen() {
     let movieName = "Ant-Man and the Wasp: Quantumania";
 
 
-    const navigaton = useNavigation()
+    const navigation = useNavigation()
 
     const [isFavourite, setIsFavourite] = useState(false)
     const [cast, setCast] = useState([1, 2, 3, 4, 5])
+    const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5])
+    const [loading, setLoading] = useState(false)
 
     const {params: item} = useRoute();
     useEffect(()=> {
-
+        console.log("itemid", item.id)
     }, [item])
 
   return (
@@ -36,7 +40,7 @@ export default function MovieScreen() {
     >
       <View style={tw`w-full`}>
         <SafeAreaView style={tw`${topMargin} absolute  z-20 w-full flex-row justify-between items-center px-4`}>
-            <TouchableOpacity onPress={()=> navigaton.goBack()} style={[tw`rounded-xl p-1`, styles.background]}>
+            <TouchableOpacity onPress={()=> navigation.goBack()} style={[tw`rounded-xl p-1`, styles.background]}>
                 <ChevronLeftIcon size="28" strokeWidth={2.5} color="white" />
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> setIsFavourite(!isFavourite)}>
@@ -44,19 +48,27 @@ export default function MovieScreen() {
             </TouchableOpacity>
         </SafeAreaView>
 
-        <View>
-            <Image source={require("../assets/images/moviePoster2.png")} style={{width, height: height * 0.55}} />
+        {
+          loading ? (
+            <Loading />
+          ): (
+            <View>
+            {/* <Image source={require("../assets/images/moviePoster2.png")} style={{width, height: height * 0.55}} /> */}
             <LinearGradient
             colors={["transparent", "rgba(23, 23, 23, 0.8)", "rgba( 23, 23, 23, 1)"]}
             style={[tw`absolute bottom-0`, { width, height: height * 0.4}]}
             start={{x: 0.5, y: 0}}
             end={{x: 0.5, y: 1}}
             />
-        </View>
+            </View>
+          )
+        }
+
+
       </View>
 
       <View style={[{marginTop: -(height * 0.09)}, tw`gap-y-3`]}>
-        <Text style={tw`text-white text-center text-3xl font-bold tracking-wider`}>
+        <Text style={tw`text-white text-center text-3xl font-bold `}>
             {movieName}
         </Text>
 
@@ -79,7 +91,9 @@ export default function MovieScreen() {
         </Text>
       </View>
 
-      <Cast cast={cast} />
+      <Cast navigation={navigation} cast={cast} />
+
+      {/* <MovieList title="Similar Movies" hideSeeAll={true} data={similarMovies} /> */}
     </ScrollView>
   )
 }

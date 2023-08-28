@@ -3,6 +3,7 @@ import React from 'react'
 import tw from "twrnc"
 import Carousel from 'react-native-snap-carousel'
 import { useNavigation } from '@react-navigation/native'
+import { image500 } from '../api/MovieDb'
 
 var { width, height } = Dimensions.get("window")
 
@@ -15,7 +16,7 @@ export default function TrendingMovies({data}) {
 
   return (
     <View style={tw` mb-8`}>
-      <Text style={tw`text-white text-xl mx-4 mb-5`}>TrendingMovies</Text>
+      <Text style={tw`text-white text-xl mx-4 mb-5`}>Trending</Text>
       <Carousel
         data={data}
         renderItem={({item})=> <MovieCard item={item} handleClick={handleClick} />}
@@ -30,11 +31,16 @@ export default function TrendingMovies({data}) {
 }
 
 const MovieCard = ({item, handleClick}) => {
+  // console.log("poster path", item.poster_path)
   return (
     <TouchableWithoutFeedback onPress={()=> handleClick(item)}>
-      <Image source={require("../assets/images/moviePoster1.png")}
-      style={[{width: width* 0.6, height: height* 0.4}, tw`rounded-3xl`]}
-      />
+
+      <Image source={{uri: image500(item.poster_path)}} style={[{width: width* 0.6, height: height* 0.4}, tw`rounded-3xl`]}/>
+      {/* <Text>Hello world</Text> */}
     </TouchableWithoutFeedback>
   )
 }
+
+      // {/* <Image source={require("../assets/images/moviePoster1.png")}
+      // style={[{width: width* 0.6, height: height* 0.4}, tw`rounded-3xl`]}
+      // /> */}
